@@ -7,14 +7,14 @@ import Foundation
 public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     
     // var value: String
-    private(set) var value: String
+    public private(set) var value: String
     var dialCode = String()
     
     public init(stringLiteral value: String) {
         self = PhoneNumber(value.cleaned)
     }
     
-    init(_ value: String) {
+    public init(_ value: String) {
         self.value = value.cleaned
     }
     
@@ -22,7 +22,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
         return "Phone number value: \(value)"
     }
     
-    var isValid: Bool {
+    public var isValid: Bool {
         do {
             let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
             let matches = detector.matches(
@@ -44,7 +44,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     /// Convert other language numbers to english number
     ///
     /// - Returns: Instance from PhoneNumber
-    mutating func converted() -> PhoneNumber {
+    public mutating func converted() -> PhoneNumber {
         let formatter = NumberFormatter()
         let number = formatter.number(from: value) ?? .init()
         self.value = formatter.string(from: number) ?? .empty
@@ -54,7 +54,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     /// Remove country dial code from number
     ///
     /// - Returns: new instance from PhoneNumber with without dial code
-    mutating func separated() -> Self {
+    public mutating func separated() -> Self {
         if dialCode.isEmpty { fatalError("Can't pass empty dial code.") }
         dialCode = dialCode.replacingOccurrences(of: "+", with: String.empty)
         if value.hasPrefix("0") {
@@ -69,7 +69,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
         return .init(self.value)
     }
     
-    enum PhoneNumberErrors: Error {
+    public enum PhoneNumberErrors: Error {
         case invalidMobile
     }
     
