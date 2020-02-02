@@ -6,9 +6,8 @@ import Foundation
 
 public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     
-    // var value: String
     public private(set) var value: String
-    var dialCode = String()
+    public var dialCode = String()
     
     public init(stringLiteral value: String) {
         self = PhoneNumber(value.cleaned)
@@ -71,6 +70,12 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     
     public enum PhoneNumberErrors: Error {
         case invalidPhoneNumber
+    }
+
+    @discardableResult
+    func toUIn64() -> UInt64? {
+        let formatter: NumberFormatter = .init()
+        return formatter.number(from: value)?.uint64Value
     }
     
 }
