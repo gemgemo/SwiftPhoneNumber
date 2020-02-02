@@ -8,6 +8,9 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     
     public private(set) var value: String
     public var dialCode = String()
+
+    /// Required minimum size of phone number
+    public var minLength: UInt8 = 7
     
     public init(stringLiteral value: String) {
         self = PhoneNumber(value.cleaned)
@@ -22,6 +25,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     public var description: String { value }
     
     public var isValid: Bool {
+        guard value.count >= self.minLength else { return false }
         do {
             let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.phoneNumber.rawValue)
             let matches = detector.matches(
@@ -129,10 +133,12 @@ extension PhoneNumber: Hashable {
 fileprivate extension String {
     
     var cleaned: Self {
-        return replacingOccurrences(of: "+", with: String.empty)
+        return self.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        /*return replacingOccurrences(of: "+", with: String.empty)
             .replacingOccurrences(of: "(", with: String.empty)
             .replacingOccurrences(of: ")", with: String.empty)
             .replacingOccurrences(of: "-", with: String.empty)
+            .replacingOccurrences(of: " ", with: String.empty)*/
     }
     
     static var empty: Self { "" }

@@ -4,7 +4,7 @@ import XCTest
 final class PhoneNumberTests: XCTestCase {
 
     func testValidation() {
-        let number: PhoneNumber = "201222316420"
+        let number: PhoneNumber = "201-22231 (642) 0"
         XCTAssertTrue(number.isValid)
     }
     
