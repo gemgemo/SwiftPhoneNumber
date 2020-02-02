@@ -17,10 +17,10 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     public init(_ value: String) {
         self.value = value.cleaned
     }
-    
-    public var description: String {
-        return "Phone number value: \(value)"
-    }
+
+    public var isNotValid: Bool { !self.isValid }
+
+    public var description: String { value }
     
     public var isValid: Bool {
         do {
@@ -70,7 +70,7 @@ public struct PhoneNumber: ExpressibleByStringLiteral, CustomStringConvertible {
     }
     
     public enum PhoneNumberErrors: Error {
-        case invalidMobile
+        case invalidPhoneNumber
     }
     
 }
@@ -88,7 +88,7 @@ extension PhoneNumber: Codable {
             value = "\(numberValue)"
             return
         }
-        throw PhoneNumberErrors.invalidMobile
+        throw PhoneNumberErrors.invalidPhoneNumber
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -133,4 +133,3 @@ fileprivate extension String {
     static var empty: Self { "" }
     
 }
-
