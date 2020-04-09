@@ -5,30 +5,25 @@ import PackageDescription
 
 let package = Package(
     name: "PhoneNumber",
-
     platforms: [
         .iOS(.v10)
     ],
-
     products: [
         .library(
             name: "PhoneNumber",
-            targets: ["PhoneNumber"]),
+            type: .dynamic,
+            targets: ["PhoneNumber"]
+        ),
     ],
-
     targets: [
-
         .target(
             name: "PhoneNumber",
             path: "Sources"
         ),
-
         .testTarget(
             name: "PhoneNumberTests",
             dependencies: ["PhoneNumber"]
         ),
     ],
-
     swiftLanguageVersions: [.v5]
-
 )
